@@ -9,7 +9,7 @@ const tableSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  restaurant: { type: mongoose.Schema.Types.ObjectId, ref: "restaurant" },
+  restaurantId: { type: mongoose.Schema.Types.ObjectId, ref: "Restaurant" },
 });
 
 const restaurantSchema = new mongoose.Schema({
