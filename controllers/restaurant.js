@@ -16,6 +16,34 @@ router.post("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
+// update restaurant
+router.put("/:restaurantId", async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findByIdAndUpdate(
+      req.params.restaurantId,
+      req.body,
+      { new: true }
+    );
+
+    res.status(201).json(restaurant);
+  } catch (error) {
+    //console.log(error);
+    res.status(500).json(error);
+  }
+});
+
+//show specific restaurant
+router.get("/:restaurantId", async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
+
+    res.status(201).json(restaurant);
+  } catch (error) {
+    //console.log(error);
+    res.status(500).json(error);
+  }
+});
+
 //view all restaurant
 router.get("/", async (req, res) => {
   try {
@@ -29,7 +57,7 @@ router.get("/", async (req, res) => {
 });
 
 // add Tables
-router.post("/:restaurantId", async (req, res) => {
+router.post("/:restaurantId/tables", async (req, res) => {
   try {
     const restaurant = await Restaurant.findById(req.params.restaurantId);
     const table = restaurant.tables.push(req.body);
@@ -42,7 +70,7 @@ router.post("/:restaurantId", async (req, res) => {
 });
 
 //view tables
-router.get("/:restaurantId", async (req, res) => {
+router.get("/:restaurantId/tables", async (req, res) => {
   try {
     const restaurant = await Restaurant.findById(req.params.restaurantId);
 
