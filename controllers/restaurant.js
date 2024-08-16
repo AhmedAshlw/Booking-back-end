@@ -27,12 +27,11 @@ router.get("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
-// add Tables
 
+// add Tables
 router.post("/:restaurantId", async (req, res) => {
   try {
     const restaurant = await Restaurant.findById(req.params.restaurantId);
-
     const table = restaurant.tables.push(req.body);
     await restaurant.save();
     res.status(201).json(table);
@@ -41,4 +40,18 @@ router.post("/:restaurantId", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+//view tables
+router.get("/:restaurantId", async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
+
+    const tables = restaurant.tables;
+    res.status(201).json(tables);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
