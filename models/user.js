@@ -5,7 +5,7 @@ const userSchema = mongoose.Schema({
   email: { type: String, required: true },
   hashedPassword: { type: String, required: true },
   isRestaurant: { type: Boolean, default: false },
-  isAdmin: { type: Boolean, default: false },
+
   commercialRegistrationNumber: { type: String },
 });
 

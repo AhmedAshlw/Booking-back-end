@@ -8,7 +8,7 @@ const BookingSchema = new mongoose.Schema({
   },
   date: Date,
   time: String,
-  status: { type: String, enum: ["pending", "confirmed", "cancelled"] },
+
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
 });
 const Booking = mongoose.model("restaurant", BookingSchema);
