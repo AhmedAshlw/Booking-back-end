@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
   hashedPassword: { type: String, required: true },
   isRestaurant: { type: Boolean, default: false },
   isAdmin: { type: Boolean, default: false },
+  commercialRegistrationNumber: { type: String },
 });
 
 userSchema.set("toJSON", {

@@ -22,6 +22,7 @@ router.post("/signup", async (req, res) => {
         req.body.password,
         parseInt(process.env.SALT)
       ),
+      email: req.body.email,
       isAdmin: false,
     });
     const token = jwt.sign(
