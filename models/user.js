@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-  username: String,
-  hashedPassword: String,
-  isAdmin: Boolean,
+  username: { type: String, required: true },
+  email: { type: String, required: true },
+  hashedPassword: { type: String, required: true },
+  isRestaurant: { type: Boolean, default: false },
+  isAdmin: { type: Boolean, default: false },
 });
 
 userSchema.set("toJSON", {
