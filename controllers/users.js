@@ -16,6 +16,7 @@ router.post("/signup", async (req, res) => {
       return res.status(400).json({ error: "Username already taken." }); //BAD IDEA TO SAY USER IS EXIST
     }
     // Create a new user with hashed password
+    const crn = req.body.commercialRegistrationNumber.trim();
     const user = await User.create({
       username: req.body.username,
       hashedPassword: bcrypt.hashSync(
@@ -24,7 +25,8 @@ router.post("/signup", async (req, res) => {
       ),
       email: req.body.email,
       isAdmin: false,
-      isRestaurant: req.body.isRestaurant,
+      isRestaurant: !!crn,
+      commercialRegistrationNumber: crn,
     });
 
     const token = jwt.sign(
