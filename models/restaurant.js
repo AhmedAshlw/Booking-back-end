@@ -24,6 +24,7 @@ const restaurantSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  location: String,
   tables: [tableSchema],
   operatingHours: String,
 });
