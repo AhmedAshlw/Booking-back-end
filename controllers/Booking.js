@@ -16,4 +16,16 @@ router.get("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
+// route to show booking
+router.get("/:bookingId", async (req, res) => {
+  try {
+    const Book = await Booking.findById(req.params.bookingId).populate(
+      "restaurantId"
+    );
+    res.status(200).json(Book);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
