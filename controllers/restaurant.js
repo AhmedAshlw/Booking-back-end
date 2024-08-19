@@ -71,13 +71,18 @@ router.post("/:restaurantId/Booking", async (req, res) => {
   }
 });
 
-//view tables
-router.get("/:restaurantId/tables", async (req, res) => {
+// view all booking for res owners
+router.get("/:restaurantId/Booking", async (req, res) => {
   try {
+    //find the restaurant
     const restaurant = await Restaurant.findById(req.params.restaurantId);
-    req.body.userId = req.user._id;
-    const tables = restaurant.tables;
-    res.status(201).json(tables);
+
+    if (!restaurant.owner.equals(req.user._id)) {
+      return res.status(403).send("You're not allowed to do that!");
+    }
+    const Book = await Booking.find({ restaurantId: req.params.restaurantId });
+
+    res.status(201).json(Book);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
