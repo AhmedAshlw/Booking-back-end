@@ -10,6 +10,7 @@ const express = require("express");
 
 const usersRouter = require("./controllers/users");
 const restaurantrouter = require("./controllers/restaurant.js");
+const bookingRouter = require("./controllers/Booking.js");
 const app = express();
 app.use(morgan("dev"));
 const PORT = process.env.PORT || 3000;
@@ -21,7 +22,7 @@ app.use(cors());
 app.use("/users", usersRouter);
 app.use("/profiles", profilesRouter);
 app.use("/restaurants", restaurantrouter);
-
+app.use("/booking", bookingRouter);
 app.listen(PORT, () => {
   console.log("The express app is ready!");
 });
