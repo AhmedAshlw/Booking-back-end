@@ -28,4 +28,26 @@ router.get("/:bookingId", async (req, res) => {
   }
 });
 
+router.put("/:bookingId", async (req, res) => {
+  try {
+    const Book = await Booking.findByIdAndUpdate(
+      req.params.bookingId,
+      req.body,
+      { new: true }
+    ).populate("restaurantId");
+    res.status(200).json(Book);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.delete("/:bookingId", async (req, res) => {
+  try {
+    const Book = await Booking.findByIdAndDelete(req.params.bookingId);
+    res.status(200).json(Book);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
