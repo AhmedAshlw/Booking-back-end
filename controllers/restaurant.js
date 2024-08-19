@@ -45,7 +45,23 @@ router.get("/:restaurantId", async (req, res) => {
     res.status(500).json(error);
   }
 });
+// delete a restaurant
+router.delete("/:restaurantId", async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
 
+    if (!restaurant.owner.equals(req.user._id)) {
+      return res.status(403).send("You're not allowed to do that!");
+    }
+
+    const deletedRes = await Restaurant.findByIdAndDelete(
+      req.params.restaurantId
+    );
+    res.status(200).json(deletedRes);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 //view all restaurant
 router.get("/", async (req, res) => {
   try {
@@ -80,6 +96,7 @@ router.get("/:restaurantId/Booking", async (req, res) => {
     if (!restaurant.owner.equals(req.user._id)) {
       return res.status(403).send("You're not allowed to do that!");
     }
+
     const Book = await Booking.find({ restaurantId: req.params.restaurantId });
 
     res.status(201).json(Book);
