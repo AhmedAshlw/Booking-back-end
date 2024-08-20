@@ -76,8 +76,9 @@ router.get("/", async (req, res) => {
 // add Rating
 router.post("/:restaurantId/rating", async (req, res) => {
   try {
-    req.body.userId = req.user._id;
+    req.body.userId = req.user.id;
     const restaurant = await Restaurant.findById(req.params.restaurantId);
+
     restaurant.rating.push(req.body);
     await restaurant.save();
 
