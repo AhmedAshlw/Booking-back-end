@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+const User = require("../models/user");
+
 const ratingSchema = new mongoose.Schema({
   rate: { type: Number },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

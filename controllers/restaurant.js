@@ -94,7 +94,7 @@ router.post("/:restaurantId/rating", async (req, res) => {
 // add comments
 router.post("/:restaurantId/comments", async (req, res) => {
   try {
-    req.body.author = req.user.id;
+    req.body.author = req.user._id;
     const restaurant = await Restaurant.findById(req.params.restaurantId);
     restaurant.comments.push(req.body);
     await restaurant.save();
@@ -102,7 +102,7 @@ router.post("/:restaurantId/comments", async (req, res) => {
     // Find the newly created comment:
     const newComment = restaurant.comments[restaurant.comments.length - 1];
 
-    newComment._doc.author = req.user;
+    newComment._doc.author = req.user.username;
 
     // Respond with the newComment:
     res.status(201).json(newComment);
