@@ -97,7 +97,13 @@ router.get("/:restaurantId/Booking", async (req, res) => {
       return res.status(403).send("You're not allowed to do that!");
     }
 
-    const Book = await Booking.find({ restaurantId: req.params.restaurantId });
+    const Book = await Booking.find({
+      restaurantId: req.params.restaurantId,
+    })
+      .populate("userId")
+      .sort({
+        createdAt: "desc",
+      });
 
     res.status(201).json(Book);
   } catch (error) {

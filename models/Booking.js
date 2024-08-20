@@ -6,7 +6,7 @@ const BookingSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   time: { type: String, required: true },
 
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 const Booking = mongoose.model("Booking", BookingSchema);
 
