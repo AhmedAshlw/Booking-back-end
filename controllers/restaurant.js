@@ -73,7 +73,43 @@ router.get("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
+// add Rating
+router.post("/:restaurantId/rating", async (req, res) => {
+  try {
+    req.body.userId = req.user.id;
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
 
+    restaurant.rating.push(req.body);
+    await restaurant.save();
+
+    // Find the newly created comment:
+    const newRating = restaurant.rating[restaurant.rating.length - 1];
+
+    res.status(201).json(newRating);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+// add comments
+router.post("/:restaurantId/comments", async (req, res) => {
+  try {
+    req.body.author = req.user._id;
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
+    restaurant.comments.push(req.body);
+    await restaurant.save();
+
+    // Find the newly created comment:
+    const newComment = restaurant.comments[restaurant.comments.length - 1];
+
+    newComment._doc.author = req.user.username;
+
+    // Respond with the newComment:
+    res.status(201).json(newComment);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 // add Booking
 router.post("/:restaurantId/Booking", async (req, res) => {
   try {

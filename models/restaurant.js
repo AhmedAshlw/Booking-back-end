@@ -1,16 +1,22 @@
 const mongoose = require("mongoose");
 
-const tableSchema = new mongoose.Schema({
-  Seats: {
-    type: Number,
-    required: true,
-  },
-  TableNumber: {
-    type: Number,
-    required: true,
-  },
-  restaurantId: { type: mongoose.Schema.Types.ObjectId, ref: "Restaurant" },
+const User = require("../models/user");
+
+const ratingSchema = new mongoose.Schema({
+  rate: { type: Number },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
+
+const commentSchema = new mongoose.Schema(
+  {
+    text: {
+      type: String,
+      required: true,
+    },
+    author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  },
+  { timestamps: true }
+);
 
 const restaurantSchema = new mongoose.Schema({
   name: {
@@ -18,18 +24,16 @@ const restaurantSchema = new mongoose.Schema({
     required: true,
   },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  rating: [Number],
 
   category: {
     type: String,
     required: true,
   },
   location: String,
-  tables: [tableSchema],
+  rating: [ratingSchema],
   operatingHours: String,
+  comments: [commentSchema],
 });
-
-// models/hoot.js
 
 const Restaurant = mongoose.model("restaurant", restaurantSchema);
 
