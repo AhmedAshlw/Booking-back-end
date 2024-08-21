@@ -33,6 +33,10 @@ const restaurantSchema = new mongoose.Schema({
   rating: [ratingSchema],
   operatingHours: String,
   comments: [commentSchema],
+  resimage: {
+    type:String,
+    required: false,
+  },
 });
 
 const Restaurant = mongoose.model("restaurant", restaurantSchema);
