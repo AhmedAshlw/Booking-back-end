@@ -147,5 +147,28 @@ router.get("/:restaurantId/Booking", async (req, res) => {
     res.status(500).json(error);
   }
 });
+router.get("/:restaurantId/rating", async (req, res) => {
+  try {
+    // Find the restaurant
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
+
+    // Check if the restaurant exists
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    // Calculate the average rating
+    const ratings = restaurant.rating;
+    const totalRating = ratings.reduce((sum, r) => sum + r.rate, 0);
+    const averageRating = ratings.length ? totalRating / ratings.length : 0;
+
+    res.status(200).json({ averageRating });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while calculating the rating" });
+  }
+});
 
 module.exports = router;
