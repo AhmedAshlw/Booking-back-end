@@ -21,16 +21,31 @@ router.post("/", async (req, res) => {
 // update restaurant
 router.put("/:restaurantId", async (req, res) => {
   try {
-    const restaurant = await Restaurant.findByIdAndUpdate(
+    const restaurant = await Restaurant.findById(
+      req.params.restaurantId
+    ).populate("owner");
+
+    // Check if the restaurant exists
+    if (!restaurant) {
+      return res.status(404).send("Restaurant not found");
+    }
+
+    // Check if the user is the owner of the restaurant
+    if (!restaurant.owner._id.equals(req.user._id)) {
+      return res.status(403).send("You're not allowed to do that!");
+    }
+
+    // Update the restaurant
+    const updatedRestaurant = await Restaurant.findByIdAndUpdate(
       req.params.restaurantId,
       req.body,
       { new: true }
     );
 
-    res.status(201).json(restaurant);
+    res.status(200).json(updatedRestaurant);
   } catch (error) {
-    //console.log(error);
-    res.status(500).json(error);
+    console.error(error); // Log the error to the console for debugging
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

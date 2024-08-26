@@ -33,6 +33,11 @@ router.get("/:bookingId", async (req, res) => {
 //update a booking
 router.put("/:bookingId", async (req, res) => {
   try {
+    const book = await Booking.findById(req.params.bookingId);
+    if (!book.userId.equals(req.user._id)) {
+      return res.status(403).send("You're not allowed to do that!");
+    }
+
     const Book = await Booking.findByIdAndUpdate(
       req.params.bookingId,
       req.body,
